@@ -38,7 +38,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 // Post Image to Analize
-import java.net.HttpURLConnection;
+import java.io.FileInputStream;
+import WebServerCommunication.WebServerCommunication;
+
 
 public class MainActivity extends AppCompatActivity {
     /**
@@ -145,26 +147,11 @@ public class MainActivity extends AppCompatActivity {
     public native byte[] rgba2gray(int width, int height, byte[] src);
 
     // Post Image
-    //
-    private void post_image_to_ws(String SERVER_POST_URL) {
 
-        try {
-            URL url = new URL(SERVER_POST_URL);
-            HttpURLConnection c = (HttpURLConnection) url.openConnection();
-            c.setDoInput(true);
-            c.setRequestMethod("POST");
-            c.setDoOutput(true);
-            c.connect();
-            OutputStream output = c.getOutputStream();
-            /*bitmap.compress(CompressFormat.JPEG, 50, output);
-            output.close();
-            Scanner result = new Scanner(c.getInputStream());
-            String response = result.nextLine();
-            Log.e("ImageUploader", "Error uploading image: " + response);
-            result.close();*/
-        } catch (IOException e) {
-            Log.e("ImageUploader", "Error uploading image", e);
-        }
+    private void post_image_to_ws(String SERVER_POST_URL) {
+        WebServerCommunication hfu = new WebServerCommunication("http://www.myurl.com/fileup.aspx", "my file title", "my file description");
+        FileInputStream fstrm = new FileInputStream(Environment.getExternalStorageDirectory().toString() + "/DCIM/file.mp4");
+        hfu.Send_Now(fstrm);
     }
 
     // Img Processing
