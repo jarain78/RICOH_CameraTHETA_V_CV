@@ -37,6 +37,9 @@ import java.nio.ByteBuffer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+// Post Image to Analize
+import java.net.HttpURLConnection;
+
 public class MainActivity extends AppCompatActivity {
     /**
      * if you have a real camera, uncomment the lines below
@@ -136,7 +139,33 @@ public class MainActivity extends AppCompatActivity {
 
     // native functions
     public native String version();
+
     public native byte[] rgba2bgra(int width, int height, byte[] src);
+
+    public native byte[] rgba2gray(int width, int height, byte[] src);
+
+    // Post Image
+    //
+    private void post_image_to_ws(String SERVER_POST_URL) {
+
+        try {
+            URL url = new URL(SERVER_POST_URL);
+            HttpURLConnection c = (HttpURLConnection) url.openConnection();
+            c.setDoInput(true);
+            c.setRequestMethod("POST");
+            c.setDoOutput(true);
+            c.connect();
+            OutputStream output = c.getOutputStream();
+            /*bitmap.compress(CompressFormat.JPEG, 50, output);
+            output.close();
+            Scanner result = new Scanner(c.getInputStream());
+            String response = result.nextLine();
+            Log.e("ImageUploader", "Error uploading image: " + response);
+            result.close();*/
+        } catch (IOException e) {
+            Log.e("ImageUploader", "Error uploading image", e);
+        }
+    }
 
     // Img Processing
     private void processImage(String thetaPicturePath) {
@@ -155,15 +184,19 @@ public class MainActivity extends AppCompatActivity {
         img.copyPixelsToBuffer(byteBuffer);
 
         // call the process from the native library
-        byte[] dst = rgba2bgra(img.getWidth(), img.getHeight(), byteBuffer.array());
+        //byte[] dst = rgba2bgra(img.getWidth(), img.getHeight(), byteBuffer.array());
+        byte[] dst = rgba2gray(img.getWidth(), img.getHeight(), byteBuffer.array());
+
 
         // set the output image on an ImageView
-        Bitmap bmp = Bitmap.createBitmap(img.getWidth(), img.getHeight(), Bitmap.Config.ARGB_8888);
+        //Bitmap bmp = Bitmap.createBitmap(img.getWidth(), img.getHeight(), Bitmap.Config.ARGB_8888);
+
+        Bitmap bmp = Bitmap.createBitmap(img.getWidth(), img.getHeight(), Bitmap.Config.ALPHA_8);
+
         bmp.copyPixelsFromBuffer(ByteBuffer.wrap(dst));
         thetaImageView.setImageBitmap(bmp);
 
     }
-
 
 
     public String takeThetaPicture() {
@@ -176,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
         String[] thetaImageFiles = null;
 
         try {
-            thetaImageFiles =  assetManager.list("100RICOH");
+            thetaImageFiles = assetManager.list("100RICOH");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -190,14 +223,14 @@ public class MainActivity extends AppCompatActivity {
 
             // copy file
             in = assetManager.open("100RICOH/" + thetaImageFiles[imageNumber]);
-            out = new FileOutputStream(basepath  + thetaImageFiles[imageNumber]);
+            out = new FileOutputStream(basepath + thetaImageFiles[imageNumber]);
             copyFile(in, out);
 
             in.close();
             in = null;
             out.flush();
             out.close();
-            out= null;
+            out = null;
             Log.d(TAG, "copied file " + thetaImageFiles[imageNumber]);
 
             InputStream inputStream = assetManager.open("100RICOH/" + thetaImageFiles[imageNumber]);
@@ -215,8 +248,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
-
         return thetaImagePath;
 
 
@@ -229,7 +260,6 @@ public class MainActivity extends AppCompatActivity {
             out.write(buffer, 0, read);
         }
     }
-
 
 
     private KeyCallback keyCallback = new KeyCallback() {
@@ -268,6 +298,7 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         }
+
         @Override
         public void onKeyUp(int keyCode, KeyEvent keyEvent) {
             if (keyCode == KeyReceiver.KEYCODE_WLAN_ON_OFF) {
