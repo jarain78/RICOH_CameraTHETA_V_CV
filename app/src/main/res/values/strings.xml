@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">opencvsample</string>
+    <string name="shutter">Shutter</string>
+    <string name="process">process</string>
+    <string name="status_ready">status: ready</string>
+    <string name="todo">TODO</string>
+</resources>
