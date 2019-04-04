@@ -44,7 +44,6 @@ import java.util.concurrent.Executors;
 import java.io.ByteArrayOutputStream;
 
 
-
 // Post Image to Analize
 import java.io.FileInputStream;
 
@@ -157,12 +156,10 @@ public class MainActivity extends AppCompatActivity {
 
     // Post Image
 
-    private void post_image_to_ws() throws IOException {
-
-        URL uri = new URL("http://alexa_robot.ngrok.io");
+    private void post_image_to_ws(String thetaPicturePath) throws IOException {
 
         new WebServerCommunication().execute("");
-
+        System.out.println(thetaPicturePath);
 
         //hfu.send_now("/DCIM/100RICOH/R001007.JPG");
     }
@@ -264,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
             // increment image number last
             imageNumber = imageNumber + 1;
 
-            post_image_to_ws();
+            post_image_to_ws(thetaImagePath);
 
         } catch (IOException e) {
             e.printStackTrace();

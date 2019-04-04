@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -15,7 +16,9 @@ public class WebServerCommunication extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... params) {
 
         try {
-            String sourceFileUri = "/DCIM/100RICOH/R001007.JPG";
+
+            System.out.println("_-------------------------------------");
+            String sourceFileUri = "/storage/emulated/0/DCIM/100RICOH/R001007.JPG";
 
             HttpURLConnection conn = null;
             DataOutputStream dos = null;
@@ -27,10 +30,12 @@ public class WebServerCommunication extends AsyncTask<String, Void, String> {
             int maxBufferSize = 1 * 1024 * 1024;
             File sourceFile = new File(sourceFileUri);
 
+            System.out.println(sourceFile.isFile());
+
             if (sourceFile.isFile()) {
 
                 try {
-                    String upLoadServerUri = "http://alexa_robot.ngrok.io";
+                    String upLoadServerUri = "http://alexa_robot.ngrok.io/image";
 
                     // open a URL connection to the Servlet
                     FileInputStream fileInputStream = new FileInputStream(
@@ -48,12 +53,12 @@ public class WebServerCommunication extends AsyncTask<String, Void, String> {
                             "multipart/form-data");
                     conn.setRequestProperty("Content-Type",
                             "multipart/form-data;boundary=" + boundary);
-                    conn.setRequestProperty("bill", sourceFileUri);
+                    conn.setRequestProperty("image", sourceFileUri);
 
                     dos = new DataOutputStream(conn.getOutputStream());
 
                     dos.writeBytes(twoHyphens + boundary + lineEnd);
-                    dos.writeBytes("Content-Disposition: form-data; name=\"bill\";filename=\""
+                    dos.writeBytes("Content-Disposition: form-data; name=\"image\";filename=\""
                             + sourceFileUri + "\"" + lineEnd);
 
                     dos.writeBytes(lineEnd);
@@ -88,6 +93,13 @@ public class WebServerCommunication extends AsyncTask<String, Void, String> {
                     int serverResponseCode = conn.getResponseCode();
                     String serverResponseMessage = conn
                             .getResponseMessage();
+
+                    System.out.println("---------------------------------------------------------");
+                    System.out.println(serverResponseCode);
+                    System.out.println("---------------------------------------------------------");
+
+
+
 
                     if (serverResponseCode == 200) {
 
