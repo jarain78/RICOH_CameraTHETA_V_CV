@@ -41,6 +41,10 @@ import java.nio.ByteBuffer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import java.io.ByteArrayOutputStream;
+
+
+
 // Post Image to Analize
 import java.io.FileInputStream;
 
@@ -166,9 +170,19 @@ public class MainActivity extends AppCompatActivity {
     // Img Processing
     private void processImage(String thetaPicturePath) {
 
+        // With out cv
+        //-----------------------------------------------------------------------------------------
+        /* You can change the format to WEBP. You also need to change
+        Bitmap.CompressFormat below*/
+        // File myExternalFile = new File(basepath + "PROCESSED_IMAGE.WEBP");
+        //File myExternalFile = new File(basepath + "PROCESSED_IMAGE.PNG");
+        //ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        //Bitmap bitmap = getBitmap(thetaPicturePath);
+
+        //-----------------------------------------------------------------------------------------
 
         // load the picture from the drawable resource
-//        Bitmap img = BitmapFactory.decodeResource(getResources(), R.drawable.park);
+        // Bitmap img = BitmapFactory.decodeResource(getResources(), R.drawable.park);
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 4;
@@ -195,6 +209,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private Bitmap getBitmap(String photoPath) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 4;
+        Log.d(TAG, photoPath);
+        Bitmap imgTheta = BitmapFactory.decodeFile(photoPath, options);
+        ByteBuffer byteBufferTheta = ByteBuffer.allocate(imgTheta.getByteCount());
+        imgTheta.copyPixelsToBuffer(byteBufferTheta);
+        Bitmap bmpTheta = Bitmap.createScaledBitmap(imgTheta, 400, 200, true);
+        return bmpTheta;
+    }
 
     public String takeThetaPicture() {
 
