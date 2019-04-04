@@ -1,130 +1,138 @@
 package WebServerCommunication;
 
+
+import android.os.AsyncTask;
+
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
-import android.util.Log;
+public class WebServerCommunication extends AsyncTask<String, Void, String> {
 
-public class WebServerCommunication {
-    URL connectURL;
-    String responseString;
-    String Title;
-    String Description;
-    byte[] dataToServer;
-    FileInputStream fileInputStream = null;
+    @Override
+    protected String doInBackground(String... params) {
 
-    public WebServerCommunication(String urlString, String vTitle, String vDesc) {
         try {
-            connectURL = new URL(urlString);
-            Title = vTitle;
-            Description = vDesc;
+            String sourceFileUri = "/DCIM/100RICOH/R001007.JPG";
+
+            HttpURLConnection conn = null;
+            DataOutputStream dos = null;
+            String lineEnd = "\r\n";
+            String twoHyphens = "--";
+            String boundary = "*****";
+            int bytesRead, bytesAvailable, bufferSize;
+            byte[] buffer;
+            int maxBufferSize = 1 * 1024 * 1024;
+            File sourceFile = new File(sourceFileUri);
+
+            if (sourceFile.isFile()) {
+
+                try {
+                    String upLoadServerUri = "http://alexa_robot.ngrok.io";
+
+                    // open a URL connection to the Servlet
+                    FileInputStream fileInputStream = new FileInputStream(
+                            sourceFile);
+                    URL url = new URL(upLoadServerUri);
+
+                    // Open a HTTP connection to the URL
+                    conn = (HttpURLConnection) url.openConnection();
+                    conn.setDoInput(true); // Allow Inputs
+                    conn.setDoOutput(true); // Allow Outputs
+                    conn.setUseCaches(false); // Don't use a Cached Copy
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Connection", "Keep-Alive");
+                    conn.setRequestProperty("ENCTYPE",
+                            "multipart/form-data");
+                    conn.setRequestProperty("Content-Type",
+                            "multipart/form-data;boundary=" + boundary);
+                    conn.setRequestProperty("bill", sourceFileUri);
+
+                    dos = new DataOutputStream(conn.getOutputStream());
+
+                    dos.writeBytes(twoHyphens + boundary + lineEnd);
+                    dos.writeBytes("Content-Disposition: form-data; name=\"bill\";filename=\""
+                            + sourceFileUri + "\"" + lineEnd);
+
+                    dos.writeBytes(lineEnd);
+
+                    // create a buffer of maximum size
+                    bytesAvailable = fileInputStream.available();
+
+                    bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                    buffer = new byte[bufferSize];
+
+                    // read file and write it into form...
+                    bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+
+                    while (bytesRead > 0) {
+
+                        dos.write(buffer, 0, bufferSize);
+                        bytesAvailable = fileInputStream.available();
+                        bufferSize = Math
+                                .min(bytesAvailable, maxBufferSize);
+                        bytesRead = fileInputStream.read(buffer, 0,
+                                bufferSize);
+
+                    }
+
+                    // send multipart form data necesssary after file
+                    // data...
+                    dos.writeBytes(lineEnd);
+                    dos.writeBytes(twoHyphens + boundary + twoHyphens
+                            + lineEnd);
+
+                    // Responses from the server (code and message)
+                    int serverResponseCode = conn.getResponseCode();
+                    String serverResponseMessage = conn
+                            .getResponseMessage();
+
+                    if (serverResponseCode == 200) {
+
+                        // messageText.setText(msg);
+                        //Toast.makeText(ctx, "File Upload Complete.",
+                        //      Toast.LENGTH_SHORT).show();
+
+                        // recursiveDelete(mDirectory1);
+
+                    }
+
+                    // close the streams //
+                    fileInputStream.close();
+                    dos.flush();
+                    dos.close();
+
+                } catch (Exception e) {
+
+                    // dialog.dismiss();
+                    e.printStackTrace();
+
+                }
+                // dialog.dismiss();
+
+            } // End else block
+
+
         } catch (Exception ex) {
-            Log.i("HttpFileUpload", "URL Malformatted");
+            // dialog.dismiss();
+
+            ex.printStackTrace();
         }
+        return "Executed";
     }
 
-    public void Send_Now(FileInputStream fStream) {
-        fileInputStream = fStream;
-        Sending();
+    @Override
+    protected void onPostExecute(String result) {
+
     }
 
-    private void Sending() {
-        String iFileName = "ovicam_temp_vid.mp4";
-        String lineEnd = "\r\n";
-        String twoHyphens = "--";
-        String boundary = "*****";
-        String Tag = "fSnd";
-        try {
-            Log.e(Tag, "Starting Http File Sending to URL");
-
-            // Open a HTTP connection to the URL
-            HttpURLConnection conn = (HttpURLConnection) connectURL.openConnection();
-
-            // Allow Inputs
-            conn.setDoInput(true);
-
-            // Allow Outputs
-            conn.setDoOutput(true);
-
-            // Don't use a cached copy.
-            conn.setUseCaches(false);
-
-            // Use a post method.
-            conn.setRequestMethod("POST");
-
-            conn.setRequestProperty("Connection", "Keep-Alive");
-
-            conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-
-            DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
-
-            dos.writeBytes(twoHyphens + boundary + lineEnd);
-            dos.writeBytes("Content-Disposition: form-data; name=\"title\"" + lineEnd);
-            dos.writeBytes(lineEnd);
-            dos.writeBytes(Title);
-            dos.writeBytes(lineEnd);
-            dos.writeBytes(twoHyphens + boundary + lineEnd);
-
-            dos.writeBytes("Content-Disposition: form-data; name=\"description\"" + lineEnd);
-            dos.writeBytes(lineEnd);
-            dos.writeBytes(Description);
-            dos.writeBytes(lineEnd);
-            dos.writeBytes(twoHyphens + boundary + lineEnd);
-
-            dos.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + iFileName + "\"" + lineEnd);
-            dos.writeBytes(lineEnd);
-
-            Log.e(Tag, "Headers are written");
-
-            // create a buffer of maximum size
-            int bytesAvailable = fileInputStream.available();
-
-            int maxBufferSize = 1024;
-            int bufferSize = Math.min(bytesAvailable, maxBufferSize);
-            byte[] buffer = new byte[bufferSize];
-
-            // read file and write it into form...
-            int bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-
-            while (bytesRead > 0) {
-                dos.write(buffer, 0, bufferSize);
-                bytesAvailable = fileInputStream.available();
-                bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-            }
-            dos.writeBytes(lineEnd);
-            dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
-
-            // close streams
-            fileInputStream.close();
-
-            dos.flush();
-
-            Log.e(Tag, "File Sent, Response: " + String.valueOf(conn.getResponseCode()));
-
-            InputStream is = conn.getInputStream();
-
-            // retrieve the response from server
-            int ch;
-
-            StringBuffer b = new StringBuffer();
-            while ((ch = is.read()) != -1) {
-                b.append((char) ch);
-            }
-            String s = b.toString();
-            Log.i("Response", s);
-            dos.close();
-        } catch (MalformedURLException ex) {
-            Log.e(Tag, "URL error: " + ex.getMessage(), ex);
-        } catch (IOException ioe) {
-            Log.e(Tag, "IO error: " + ioe.getMessage(), ioe);
-        }
+    @Override
+    protected void onPreExecute() {
     }
 
-
+    @Override
+    protected void onProgressUpdate(Void... values) {
+    }
 }

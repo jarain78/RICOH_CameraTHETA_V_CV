@@ -27,7 +27,11 @@ import org.theta4j.osc.CommandState;
 import org.theta4j.webapi.TakePicture;
 import org.theta4j.webapi.Theta;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,6 +43,7 @@ import java.util.concurrent.Executors;
 
 // Post Image to Analize
 import java.io.FileInputStream;
+
 import WebServerCommunication.WebServerCommunication;
 
 
@@ -148,10 +153,14 @@ public class MainActivity extends AppCompatActivity {
 
     // Post Image
 
-    private void post_image_to_ws(String SERVER_POST_URL) {
-        WebServerCommunication hfu = new WebServerCommunication("http://www.myurl.com/fileup.aspx", "my file title", "my file description");
-        FileInputStream fstrm = new FileInputStream(Environment.getExternalStorageDirectory().toString() + "/DCIM/file.mp4");
-        hfu.Send_Now(fstrm);
+    private void post_image_to_ws() throws IOException {
+
+        URL uri = new URL("http://alexa_robot.ngrok.io");
+
+        new WebServerCommunication().execute("");
+
+
+        //hfu.send_now("/DCIM/100RICOH/R001007.JPG");
     }
 
     // Img Processing
@@ -179,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
         //Bitmap bmp = Bitmap.createBitmap(img.getWidth(), img.getHeight(), Bitmap.Config.ARGB_8888);
 
         Bitmap bmp = Bitmap.createBitmap(img.getWidth(), img.getHeight(), Bitmap.Config.ALPHA_8);
+
 
         bmp.copyPixelsFromBuffer(ByteBuffer.wrap(dst));
         thetaImageView.setImageBitmap(bmp);
@@ -229,6 +239,8 @@ public class MainActivity extends AppCompatActivity {
 
             // increment image number last
             imageNumber = imageNumber + 1;
+
+            post_image_to_ws();
 
         } catch (IOException e) {
             e.printStackTrace();
