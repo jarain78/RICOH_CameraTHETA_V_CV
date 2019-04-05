@@ -5,4 +5,8 @@
     <string name="status_ready">status: ready</string>
     <string name="todo">TODO</string>
     <string name="analyze_image">Analyze Image</string>
+    <string name="change_size">Change Size</string>
+    <string name="analyzeImage">Analyze Image</string>
+    <string name="sizecheckBoxId">Change Size</string>
+    <string name="compress_format">Compress Format</string>
 </resources>

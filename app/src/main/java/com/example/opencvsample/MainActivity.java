@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -73,6 +74,17 @@ public class MainActivity extends AppCompatActivity {
         System.loadLibrary("opencvsample");
     }
 
+    // jarain78
+    //-----------------------------------------------------------------------------------------
+
+    Button analyzeImageButton;
+    CheckBox sizecheckBox;
+    CheckBox formatCheckBox;
+    URL inputFileUrl;
+    int conta_webp_image = 0;
+    //-----------------------------------------------------------------------------------------
+
+
     Button takePictureButton;
     ImageView thetaImageView;
     TextView statusTextView;
@@ -86,8 +98,9 @@ public class MainActivity extends AppCompatActivity {
     private ExecutorService imageExecutor = Executors.newSingleThreadExecutor();
     private ExecutorService thetaExecutor = Executors.newSingleThreadExecutor();
 
+    String thetaImagePath = null;
 
-    URL inputFileUrl;
+
     private final String TAG = "THETADEBUG";
 
     int imageNumber = 0;
@@ -100,6 +113,12 @@ public class MainActivity extends AppCompatActivity {
 
         thetaImageView = findViewById(R.id.thetaImageId);
         takePictureButton = findViewById(R.id.takePictueButtonId);
+
+        // Jarain78
+        analyzeImageButton = findViewById(R.id.analyzeImagaeButtonId);
+        sizecheckBox = findViewById(R.id.sizecheckBoxId);
+        formatCheckBox = findViewById(R.id.formatCheckBoxId);
+
         processButton = findViewById(R.id.processButtonId);
         thetaImageView = findViewById(R.id.thetaImageId);
         thetaImageView.setImageResource(R.drawable.theta);
@@ -110,6 +129,50 @@ public class MainActivity extends AppCompatActivity {
         if (!thetaMediaDir.exists()) {
             thetaMediaDir.mkdirs();
         }
+
+        // Jarain78
+        //-----------------------------------------------------------------------------------------
+
+        analyzeImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(new Runnable() {
+                    public void run() {
+                        try {
+                            post_image_to_ws(thetaImagePath);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+            }
+        });
+
+        /*sizecheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(new Runnable() {
+                    public void run() {
+                        getBitmap800_400(thetaImagePath);
+
+                    }
+                }).start();
+            }
+        });*/
+
+        formatCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(new Runnable() {
+                    public void run() {
+                        Bitmap new_image = getBitmap400_200(thetaImagePath);
+                        change_compress_format(new_image);
+                    }
+                }).start();
+            }
+        });
+
+        //-----------------------------------------------------------------------------------------
 
         takePictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,19 +257,19 @@ public class MainActivity extends AppCompatActivity {
         //byte[] dst = rgba2bgra(img.getWidth(), img.getHeight(), byteBuffer.array());
         byte[] dst = rgba2gray(img.getWidth(), img.getHeight(), byteBuffer.array());
 
-
         // set the output image on an ImageView
         //Bitmap bmp = Bitmap.createBitmap(img.getWidth(), img.getHeight(), Bitmap.Config.ARGB_8888);
 
         Bitmap bmp = Bitmap.createBitmap(img.getWidth(), img.getHeight(), Bitmap.Config.ALPHA_8);
-
 
         bmp.copyPixelsFromBuffer(ByteBuffer.wrap(dst));
         thetaImageView.setImageBitmap(bmp);
 
     }
 
-    private Bitmap getBitmap(String photoPath) {
+    // Jarain78
+    //----------------------------------------------------------------------------------------------
+    private Bitmap getBitmap400_200(String photoPath) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 4;
         Log.d(TAG, photoPath);
@@ -217,11 +280,74 @@ public class MainActivity extends AppCompatActivity {
         return bmpTheta;
     }
 
+    // resize the image
+    private void getBitmap800_400(String photoPath) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 4;
+        Log.d(TAG, photoPath);
+        Bitmap imgTheta = BitmapFactory.decodeFile(photoPath, options);
+        ByteBuffer byteBufferTheta = ByteBuffer.allocate(imgTheta.getByteCount());
+        imgTheta.copyPixelsToBuffer(byteBufferTheta);
+        Bitmap bmpTheta = Bitmap.createScaledBitmap(imgTheta, 800, 400, true);
+        save_resized_image(bmpTheta);
+        //thetaImageView.setImageBitmap(bmpTheta);
+    }
+
+    // save the new image with the new size as png
+    private void save_resized_image(Bitmap bitmap) {
+        File myExternalFile = new File(basepath + "image_800_400.PNG");
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        // bitmap.compress should be put on different thread
+        imageExecutor.submit(() -> {
+            // you can change the compress format to WEBP in the line below
+            bitmap.compress(Bitmap.CompressFormat.PNG, 50, byteArrayOutputStream);
+
+            try {
+                Log.d(TAG, "New File Url: " + myExternalFile);
+                FileOutputStream fos = new FileOutputStream(myExternalFile);
+                fos.write(byteArrayOutputStream.toByteArray());
+                fos.close();
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+
+    // change the compress format
+    private void change_compress_format(Bitmap bitmap) {
+        File myExternalFile = new File(basepath + "change_compress_format.WEBP");
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        // bitmap.compress should be put on different thread
+        imageExecutor.submit(() -> {
+            // you can change the compress format to WEBP in the line below
+            bitmap.compress(Bitmap.CompressFormat.WEBP, 100, byteArrayOutputStream);
+
+            try {
+                Log.d(TAG, "New File Url: " + myExternalFile);
+
+                FileOutputStream fos = new FileOutputStream(myExternalFile);
+                fos.write(byteArrayOutputStream.toByteArray());
+                fos.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+
+
     public String takeThetaPicture() {
 
         InputStream in = null;
         OutputStream out = null;
-        String thetaImagePath = null;
         AssetManager assetManager = getResources().getAssets();
 
         String[] thetaImageFiles = null;
@@ -261,7 +387,6 @@ public class MainActivity extends AppCompatActivity {
             // increment image number last
             imageNumber = imageNumber + 1;
 
-            post_image_to_ws(thetaImagePath);
 
         } catch (IOException e) {
             e.printStackTrace();

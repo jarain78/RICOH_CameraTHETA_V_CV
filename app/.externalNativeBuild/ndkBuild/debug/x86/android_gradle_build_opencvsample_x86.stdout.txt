@@ -1,3 +1,1 @@
-[x86] Compile++      : opencvsample <= sample.cpp
-[x86] Prebuilt       : libopencv_java3.so <= /Users/jaimerinconarango/Dropbox/Hacksterio_Projects/RICOH_CameraTHETA_V_CV/OpenCV-android-sdk/sdk/native/jni/../libs/x86/
-[x86] SharedLibrary  : libopencvsample.so
+make: `/Users/jaimerinconarango/Dropbox/Hacksterio_Projects/RICOH_CameraTHETA_V_CV/app/build/intermediates/ndkBuild/debug/obj/local/x86/libopencvsample.so' is up to date.
