@@ -222,6 +222,9 @@ public class MainActivity extends AppCompatActivity {
 
     public native byte[] rgba2gray(int width, int height, byte[] src);
 
+    public native byte[] flipimage(int width, int height, byte[] src);
+
+
     // Post Image
     //WebServerCommunication postImageToImaggaAsync = new WebServerCommunication();
 
@@ -276,12 +279,13 @@ public class MainActivity extends AppCompatActivity {
 
         // call the process from the native library
         //byte[] dst = rgba2bgra(img.getWidth(), img.getHeight(), byteBuffer.array());
-        byte[] dst = rgba2gray(img.getWidth(), img.getHeight(), byteBuffer.array());
+        //byte[] dst = rgba2gray(img.getWidth(), img.getHeight(), byteBuffer.array());
+        byte[] dst = flipimage(img.getWidth(), img.getHeight(), byteBuffer.array());
 
         // set the output image on an ImageView
-        //Bitmap bmp = Bitmap.createBitmap(img.getWidth(), img.getHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap bmp = Bitmap.createBitmap(img.getWidth(), img.getHeight(), Bitmap.Config.ARGB_8888);
 
-        Bitmap bmp = Bitmap.createBitmap(img.getWidth(), img.getHeight(), Bitmap.Config.ALPHA_8);
+        //Bitmap bmp = Bitmap.createBitmap(img.getWidth(), img.getHeight(), Bitmap.Config.ALPHA_8);
 
         bmp.copyPixelsFromBuffer(ByteBuffer.wrap(dst));
         thetaImageView.setImageBitmap(bmp);

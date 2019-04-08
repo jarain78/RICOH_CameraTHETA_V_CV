@@ -1,1 +1,2 @@
-make: `/Users/jaimerinconarango/Dropbox/Hacksterio_Projects/RICOH_CameraTHETA_V_Project/RICOH_CameraTHETA_V_CV/app/build/intermediates/ndkBuild/debug/obj/local/x86/libopencvsample.so' is up to date.
+[x86] Compile++      : opencvsample <= sample.cpp
+[x86] SharedLibrary  : libopencvsample.so
