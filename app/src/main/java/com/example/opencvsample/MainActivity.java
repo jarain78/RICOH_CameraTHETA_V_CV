@@ -44,11 +44,16 @@ import java.util.concurrent.Executors;
 
 import java.io.ByteArrayOutputStream;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.MediaType;
 
 // Post Image to Analize
 import java.io.FileInputStream;
 
 import WebServerCommunication.WebServerCommunication;
+import okhttp3.Response;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -148,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*sizecheckBox.setOnClickListener(new View.OnClickListener() {
+        sizecheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new Thread(new Runnable() {
@@ -158,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }).start();
             }
-        });*/
+        });
 
         formatCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,14 +223,30 @@ public class MainActivity extends AppCompatActivity {
     public native byte[] rgba2gray(int width, int height, byte[] src);
 
     // Post Image
+    //WebServerCommunication postImageToImaggaAsync = new WebServerCommunication();
+
 
     private void post_image_to_ws(String thetaPicturePath) throws IOException {
 
-        new WebServerCommunication().execute("");
-        System.out.println(thetaPicturePath);
+        File file = new File(picturePath);
+        RequestBody fileReqBody = RequestBody.create(MediaType.parse("image/*"), file);
+        String url = "http://alexa_robot.ngrok.io/image";
 
-        //hfu.send_now("/DCIM/100RICOH/R001007.JPG");
+        Request request = new Request.Builder()
+                .url(url)
+                .post(fileReqBody)
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+        Response response = client.newCall(request).execute();
+
+        Log.d("response", "uploadImage:" + response.body().string());
+
+        System.out.println(request.body());
+
+
     }
+
 
     // Img Processing
     private void processImage(String thetaPicturePath) {
@@ -341,6 +362,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
     //----------------------------------------------------------------------------------------------
 
 

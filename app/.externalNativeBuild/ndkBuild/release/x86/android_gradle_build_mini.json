@@ -1,17 +1,17 @@
 {
   "buildFiles": [
-    "/Users/jaimerinconarango/Dropbox/Hacksterio_Projects/RICOH_CameraTHETA_V_CV/app/jni/Android.mk",
-    "/Users/jaimerinconarango/Dropbox/Hacksterio_Projects/RICOH_CameraTHETA_V_CV/app/jni/Application.mk"
+    "/Users/jaimerinconarango/Dropbox/Hacksterio_Projects/RICOH_CameraTHETA_V_Project/RICOH_CameraTHETA_V_CV/app/jni/Android.mk",
+    "/Users/jaimerinconarango/Dropbox/Hacksterio_Projects/RICOH_CameraTHETA_V_Project/RICOH_CameraTHETA_V_CV/app/jni/Application.mk"
   ],
   "cleanCommands": [
-    "/Users/jaimerinconarango/Library/Android/sdk/ndk-bundle/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/Users/jaimerinconarango/Dropbox/Hacksterio_Projects/RICOH_CameraTHETA_V_CV/app/jni/Android.mk NDK_APPLICATION_MK\u003d/Users/jaimerinconarango/Dropbox/Hacksterio_Projects/RICOH_CameraTHETA_V_CV/app/jni/Application.mk APP_ABI\u003dx86 NDK_ALL_ABIS\u003dx86 NDK_DEBUG\u003d0 APP_PLATFORM\u003dandroid-24 NDK_OUT\u003d/Users/jaimerinconarango/Dropbox/Hacksterio_Projects/RICOH_CameraTHETA_V_CV/app/build/intermediates/ndkBuild/release/obj NDK_LIBS_OUT\u003d/Users/jaimerinconarango/Dropbox/Hacksterio_Projects/RICOH_CameraTHETA_V_CV/app/build/intermediates/ndkBuild/release/lib clean"
+    "/Users/jaimerinconarango/Library/Android/sdk/ndk-bundle/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/Users/jaimerinconarango/Dropbox/Hacksterio_Projects/RICOH_CameraTHETA_V_Project/RICOH_CameraTHETA_V_CV/app/jni/Android.mk NDK_APPLICATION_MK\u003d/Users/jaimerinconarango/Dropbox/Hacksterio_Projects/RICOH_CameraTHETA_V_Project/RICOH_CameraTHETA_V_CV/app/jni/Application.mk APP_ABI\u003dx86 NDK_ALL_ABIS\u003dx86 NDK_DEBUG\u003d0 APP_PLATFORM\u003dandroid-24 NDK_OUT\u003d/Users/jaimerinconarango/Dropbox/Hacksterio_Projects/RICOH_CameraTHETA_V_Project/RICOH_CameraTHETA_V_CV/app/build/intermediates/ndkBuild/release/obj NDK_LIBS_OUT\u003d/Users/jaimerinconarango/Dropbox/Hacksterio_Projects/RICOH_CameraTHETA_V_Project/RICOH_CameraTHETA_V_CV/app/build/intermediates/ndkBuild/release/lib clean"
   ],
   "libraries": {
     "opencvsample-release-x86": {
       "artifactName": "opencvsample",
-      "buildCommand": "/Users/jaimerinconarango/Library/Android/sdk/ndk-bundle/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/Users/jaimerinconarango/Dropbox/Hacksterio_Projects/RICOH_CameraTHETA_V_CV/app/jni/Android.mk NDK_APPLICATION_MK\u003d/Users/jaimerinconarango/Dropbox/Hacksterio_Projects/RICOH_CameraTHETA_V_CV/app/jni/Application.mk APP_ABI\u003dx86 NDK_ALL_ABIS\u003dx86 NDK_DEBUG\u003d0 APP_PLATFORM\u003dandroid-24 NDK_OUT\u003d/Users/jaimerinconarango/Dropbox/Hacksterio_Projects/RICOH_CameraTHETA_V_CV/app/build/intermediates/ndkBuild/release/obj NDK_LIBS_OUT\u003d/Users/jaimerinconarango/Dropbox/Hacksterio_Projects/RICOH_CameraTHETA_V_CV/app/build/intermediates/ndkBuild/release/lib /Users/jaimerinconarango/Dropbox/Hacksterio_Projects/RICOH_CameraTHETA_V_CV/app/build/intermediates/ndkBuild/release/obj/local/x86/libopencvsample.so",
+      "buildCommand": "/Users/jaimerinconarango/Library/Android/sdk/ndk-bundle/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/Users/jaimerinconarango/Dropbox/Hacksterio_Projects/RICOH_CameraTHETA_V_Project/RICOH_CameraTHETA_V_CV/app/jni/Android.mk NDK_APPLICATION_MK\u003d/Users/jaimerinconarango/Dropbox/Hacksterio_Projects/RICOH_CameraTHETA_V_Project/RICOH_CameraTHETA_V_CV/app/jni/Application.mk APP_ABI\u003dx86 NDK_ALL_ABIS\u003dx86 NDK_DEBUG\u003d0 APP_PLATFORM\u003dandroid-24 NDK_OUT\u003d/Users/jaimerinconarango/Dropbox/Hacksterio_Projects/RICOH_CameraTHETA_V_Project/RICOH_CameraTHETA_V_CV/app/build/intermediates/ndkBuild/release/obj NDK_LIBS_OUT\u003d/Users/jaimerinconarango/Dropbox/Hacksterio_Projects/RICOH_CameraTHETA_V_Project/RICOH_CameraTHETA_V_CV/app/build/intermediates/ndkBuild/release/lib /Users/jaimerinconarango/Dropbox/Hacksterio_Projects/RICOH_CameraTHETA_V_Project/RICOH_CameraTHETA_V_CV/app/build/intermediates/ndkBuild/release/obj/local/x86/libopencvsample.so",
       "abi": "x86",
-      "output": "/Users/jaimerinconarango/Dropbox/Hacksterio_Projects/RICOH_CameraTHETA_V_CV/app/build/intermediates/ndkBuild/release/obj/local/x86/libopencvsample.so"
+      "output": "/Users/jaimerinconarango/Dropbox/Hacksterio_Projects/RICOH_CameraTHETA_V_Project/RICOH_CameraTHETA_V_CV/app/build/intermediates/ndkBuild/release/obj/local/x86/libopencvsample.so"
     }
   }
 }
