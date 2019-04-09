@@ -19,7 +19,7 @@
         app:layout_constraintEnd_toStartOf="@+id/analyzeImagaeButtonId"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/thetaImageId"
+        app:layout_constraintTop_toBottomOf="@+id/obejectViewId"
         app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
@@ -37,7 +37,7 @@
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.082"
+        app:layout_constraintVertical_bias="0.19999999"
         tools:srcCompat="@drawable/theta" />
 
     <Button
@@ -47,35 +47,39 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="36dp"
         android:text="@string/process"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.387"
         app:layout_constraintStart_toEndOf="@+id/analyzeImagaeButtonId"
-        app:layout_constraintTop_toBottomOf="@+id/statusViewId"
-        app:layout_constraintVertical_bias="0.793" />
+        app:layout_constraintTop_toBottomOf="@+id/obejectViewId"
+        app:layout_constraintVertical_bias="0.32999998" />
 
     <TextView
         android:id="@+id/statusViewId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="88dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/status_ready"
+        app:layout_constraintBottom_toTopOf="@+id/obejectViewId"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/thetaImageId" />
+        app:layout_constraintTop_toBottomOf="@+id/thetaImageId"
+        app:layout_constraintVertical_bias="0.61" />
 
     <TextView
         android:id="@+id/obejectViewId"
         android:layout_width="340dp"
-        android:layout_height="34dp"
+        android:layout_height="35dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="160dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.472"
+        app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/thetaImageId" />
 
@@ -89,7 +93,7 @@
         android:text="@string/analyzeImage"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statusViewId"
+        app:layout_constraintTop_toBottomOf="@+id/obejectViewId"
         app:layout_constraintVertical_bias="1.0" />
 
     <CheckBox
@@ -97,25 +101,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="160dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="73dp"
         android:text="@string/sizecheckBoxId"
         app:layout_constraintBottom_toTopOf="@+id/thetaImageId"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.21"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.278"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <CheckBox
         android:id="@+id/formatCheckBoxId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="73dp"
         android:text="@string/compress_format"
         app:layout_constraintBottom_toTopOf="@+id/thetaImageId"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.782"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.838"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

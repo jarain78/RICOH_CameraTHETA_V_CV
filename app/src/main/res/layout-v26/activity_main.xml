@@ -10,17 +10,11 @@
         android:id="@+id/takePictueButtonId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="76dp"
+        android:layout_marginEnd="304dp"
+        android:layout_marginBottom="92dp"
         android:text="@string/shutter"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/analyzeImagaeButtonId"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/thetaImageId"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
         android:id="@+id/thetaImageId"
@@ -37,23 +31,18 @@
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="0.131"
         tools:srcCompat="@drawable/theta" />
 
     <Button
         android:id="@+id/processButtonId"
         android:layout_width="wrap_content"
         android:layout_height="52dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginBottom="92dp"
         android:text="@string/process"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/analyzeImagaeButtonId"
-        app:layout_constraintTop_toBottomOf="@+id/statusViewId"
-        app:layout_constraintVertical_bias="0.793" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/statusViewId"
@@ -69,77 +58,52 @@
 
     <TextView
         android:id="@+id/objectDetecteId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="315dp"
+        android:layout_height="90dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
-        android:text="@string/objects_detected"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.104"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/thetaImageId" />
+        app:layout_constraintTop_toBottomOf="@+id/statusViewId" />
 
     <Button
         android:id="@+id/analyzeImagaeButtonId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="136dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="76dp"
+        android:layout_marginEnd="148dp"
+        android:layout_marginBottom="92dp"
         android:text="@string/analyzeImage"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statusViewId"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <CheckBox
         android:id="@+id/sizecheckBoxId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="52dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="160dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="36dp"
         android:text="@string/sizecheckBoxId"
-        app:layout_constraintBottom_toTopOf="@+id/analyzeImagaeButtonId"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.21"
+        app:layout_constraintBottom_toTopOf="@+id/thetaImageId"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statusViewId"
-        app:layout_constraintVertical_bias="0.783" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <CheckBox
         android:id="@+id/formatCheckBoxId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="160dp"
+        android:layout_height="35dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginBottom="33dp"
         android:text="@string/compress_format"
-        app:layout_constraintBottom_toTopOf="@+id/analyzeImagaeButtonId"
+        app:layout_constraintBottom_toTopOf="@+id/thetaImageId"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.633"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statusViewId"
-        app:layout_constraintVertical_bias="0.783" />
-
-    <EditText
-        android:id="@+id/classDetectedId"
-        android:layout_width="340dp"
-        android:layout_height="90dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/objects_detected"
-        android:inputType="none"
-        android:labelFor="@id/objectDetecteId"
-        app:layout_constraintBottom_toTopOf="@+id/sizecheckBoxId"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/objectDetecteId" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 </android.support.constraint.ConstraintLayout>

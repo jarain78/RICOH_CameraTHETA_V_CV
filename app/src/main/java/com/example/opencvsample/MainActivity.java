@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         analyzeImageButton = findViewById(R.id.analyzeImagaeButtonId);
         sizecheckBox = findViewById(R.id.sizecheckBoxId);
         formatCheckBox = findViewById(R.id.formatCheckBoxId);
-        object_detected = findViewById(R.id.obejectViewId);
+        object_detected = findViewById(R.id.objectDetecteId);
 
         //-------
 
@@ -278,6 +278,7 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject jsonobject = Jarray.getJSONObject(i);
                         label_names = jsonobject.getString("label_names");
                         System.out.println(label_names);
+                        object_detected.setText(label_names);
 
                     }
 
