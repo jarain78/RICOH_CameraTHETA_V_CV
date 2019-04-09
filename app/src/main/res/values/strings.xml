@@ -9,4 +9,5 @@
     <string name="analyzeImage">Analyze Image</string>
     <string name="sizecheckBoxId">Change Size</string>
     <string name="compress_format">Compress Format</string>
+    <string name="objects_detected">Objects detected</string>
 </resources>

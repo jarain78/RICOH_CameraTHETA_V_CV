@@ -23,11 +23,15 @@ import com.theta360.pluginlibrary.activity.PluginActivity;
 import com.theta360.pluginlibrary.callback.KeyCallback;
 import com.theta360.pluginlibrary.receiver.KeyReceiver;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.theta4j.osc.CommandResponse;
 import org.theta4j.osc.CommandState;
 import org.theta4j.webapi.TakePicture;
 import org.theta4j.webapi.Theta;
 
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -85,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
     Button analyzeImageButton;
     CheckBox sizecheckBox;
     CheckBox formatCheckBox;
+    TextView object_detected;
     URL inputFileUrl;
     int conta_webp_image = 0;
     //-----------------------------------------------------------------------------------------
@@ -123,6 +128,9 @@ public class MainActivity extends AppCompatActivity {
         analyzeImageButton = findViewById(R.id.analyzeImagaeButtonId);
         sizecheckBox = findViewById(R.id.sizecheckBoxId);
         formatCheckBox = findViewById(R.id.formatCheckBoxId);
+        object_detected = findViewById(R.id.obejectViewId);
+
+        //-------
 
         processButton = findViewById(R.id.processButtonId);
         thetaImageView = findViewById(R.id.thetaImageId);
@@ -220,8 +228,10 @@ public class MainActivity extends AppCompatActivity {
 
     public native byte[] rgba2bgra(int width, int height, byte[] src);
 
+    // Jarain78
     public native byte[] rgba2gray(int width, int height, byte[] src);
 
+    // Jarain78
     public native byte[] flipimage(int width, int height, byte[] src);
 
 
@@ -230,6 +240,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void post_image_to_ws(String thetaPicturePath) throws IOException {
+        Response responses;
 
         File file = new File(picturePath);
         RequestBody fileReqBody = RequestBody.create(MediaType.parse("image/*"), file);
@@ -241,15 +252,44 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         OkHttpClient client = new OkHttpClient();
-        Response response = client.newCall(request).execute();
+        //Response response = client.newCall(request).execute();
 
-        Log.d("response", "uploadImage:" + response.body().string());
+        try {
+            responses = client.newCall(request).execute();
+            get_objects(responses.body().string());
 
-        System.out.println(request.body());
-
+            //Log.d("response", "uploadImage:" + responses.body().string());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
+    private void get_objects(String responses) {
+
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+
+                    JSONArray Jarray = new JSONArray(responses);
+                    String label_names = " ";
+
+                    for (int i = 0; i < Jarray.length(); i++) {
+                        JSONObject jsonobject = Jarray.getJSONObject(i);
+                        label_names = jsonobject.getString("label_names");
+                        System.out.println(label_names);
+
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
+
+    }
 
     // Img Processing
     private void processImage(String thetaPicturePath) {
