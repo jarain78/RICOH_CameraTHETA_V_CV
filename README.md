@@ -24,13 +24,13 @@ to identify the objects present in the image and return them to the APP.
 This web service was developed in python and Flash, this web service can be downloaded from the 
 following git (https://github.com/jarain78/RICOH_Http_Server/tree/develop).
 
-to use the web service from Android studio, it is necessary to edit line 247 of the 
-MainActivity.java file. In this line we find the following code "String url = "http://YOUR HOST/image";", 
-replace YOUR HOST by the host where the web service is located. If this is done from the same computer,
-YOUR HOST=the IP address of the machine.
+to use the web service from Android studio, it is necessary to edit *line 247* of the 
+*MainActivity.java* file. In this line we find the following code *"String url = "http://YOUR HOST/image";"*, 
+replace *YOUR HOST* by the host where the web service is located. If this is done from the same computer,
+*YOUR HOST=the IP address of the machine*.
 
-Note that this same host has to be placed on the web server, specifically on line 28 of the HTTP_Server.py 
-file (app.run(host="YOUR HOST", port=80)).
+Note that this same host has to be placed on the web server, specifically on *line 28* of the *HTTP_Server.py*
+file *(app.run(host="YOUR HOST", port=80))*.
 
 
 
