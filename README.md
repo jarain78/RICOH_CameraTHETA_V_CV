@@ -33,4 +33,4 @@ Note that this same host has to be placed on the web server, specifically on lin
 file (app.run(host="YOUR HOST", port=80)).
 
 
-https://youtu.be/8uAtpyOjRA8
+![alt text](https://youtu.be/8uAtpyOjRA8)
