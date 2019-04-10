@@ -34,4 +34,4 @@ file (app.run(host="YOUR HOST", port=80)).
 
 
 
-[![Web Service](https://youtu.be/8uAtpyOjRA8/0.jpg)](https://youtu.be/8uAtpyOjRA8 "RICOH")
+[![](http://img.youtube.com/vi/8uAtpyOjRA8/0.jpg)](http://www.youtube.com/watch?v=8uAtpyOjRA8 "RICOH WebService")
