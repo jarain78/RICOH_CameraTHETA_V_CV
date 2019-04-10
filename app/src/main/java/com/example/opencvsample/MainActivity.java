@@ -244,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
 
         File file = new File(picturePath);
         RequestBody fileReqBody = RequestBody.create(MediaType.parse("image/*"), file);
-        String url = "http://alexa_robot.ngrok.io/image";
+        String url = "http://YOUR HOST/image";
 
         Request request = new Request.Builder()
                 .url(url)
