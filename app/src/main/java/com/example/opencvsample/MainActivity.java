@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
     int conta_webp_image = 0;
     String url = "http://YOUR HOST/";
     String[] service = {"get_image_objects", "image"};
+    int conta_pro = 0;
 
     //-----------------------------------------------------------------------------------------
 
@@ -132,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
         sizecheckBox = findViewById(R.id.sizecheckBoxId);
         formatCheckBox = findViewById(R.id.formatCheckBoxId);
         object_detected = findViewById(R.id.objectDetecteId);
+
 
         //-------
 
@@ -233,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
     public native byte[] rgba2bgra(int width, int height, byte[] src);
 
     // Jarain78
-    public native byte[] rgba2gray(int width, int height, byte[] src);
+    public native byte[] processing(int width, int height, byte[] src);
 
     // Jarain78
     public native byte[] flipimage(int width, int height, byte[] src);
@@ -329,6 +331,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Img Processing
     private void processImage(String thetaPicturePath) {
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
 
         // With out cv
         //-----------------------------------------------------------------------------------------
@@ -349,22 +352,49 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, thetaPicturePath);
         Bitmap img = BitmapFactory.decodeFile(thetaPicturePath, options);
 
-        // get the byte array from the Bitmap instance
-        ByteBuffer byteBuffer = ByteBuffer.allocate(img.getByteCount());
-        img.copyPixelsToBuffer(byteBuffer);
-
         // call the process from the native library
-        //byte[] dst = rgba2bgra(img.getWidth(), img.getHeight(), byteBuffer.array());
-        //byte[] dst = rgba2gray(img.getWidth(), img.getHeight(), byteBuffer.array());
-        byte[] dst = flipimage(img.getWidth(), img.getHeight(), byteBuffer.array());
+        if (conta_pro == 0) {
+            // get the byte array from the Bitmap instance
+            ByteBuffer byteBuffer = ByteBuffer.allocate(img.getByteCount());
+            img.copyPixelsToBuffer(byteBuffer);
+            // set the output image on an ImageView
+            Bitmap bmp = Bitmap.createBitmap(img.getWidth(), img.getHeight(), Bitmap.Config.ARGB_8888);
+            byte[] dst = rgba2bgra(img.getWidth(), img.getHeight(), byteBuffer.array());
+            object_detected.setText("RGB2BGRA");
+            bmp.copyPixelsFromBuffer(ByteBuffer.wrap(dst));
+            thetaImageView.setImageBitmap(bmp);
+            conta_pro = conta_pro + 1;
 
-        // set the output image on an ImageView
-        Bitmap bmp = Bitmap.createBitmap(img.getWidth(), img.getHeight(), Bitmap.Config.ARGB_8888);
+        } else if (conta_pro == 1) {
 
-        //Bitmap bmp = Bitmap.createBitmap(img.getWidth(), img.getHeight(), Bitmap.Config.ALPHA_8);
+            // get the byte array from the Bitmap instance
+            ByteBuffer byteBuffer = ByteBuffer.allocate(img.getByteCount());
+            img.copyPixelsToBuffer(byteBuffer);
+            // set the output image on an ImageView
+            Bitmap bmp = Bitmap.createBitmap(img.getWidth(), img.getHeight(), Bitmap.Config.ARGB_8888);
+            byte[] dst = flipimage(img.getWidth(), img.getHeight(), byteBuffer.array());
+            object_detected.setText("FLIP IMAGE");
+            bmp.copyPixelsFromBuffer(ByteBuffer.wrap(dst));
+            thetaImageView.setImageBitmap(bmp);
+            conta_pro = conta_pro + 1;
 
-        bmp.copyPixelsFromBuffer(ByteBuffer.wrap(dst));
-        thetaImageView.setImageBitmap(bmp);
+        } else if (conta_pro == 2) {
+
+            // get the byte array from the Bitmap instance
+            ByteBuffer byteBuffer = ByteBuffer.allocate(img.getByteCount());
+            img.copyPixelsToBuffer(byteBuffer);
+            // set the output image on an ImageView
+            Bitmap bmp = Bitmap.createBitmap(img.getWidth(), img.getHeight(), Bitmap.Config.ARGB_8888);
+            byte[] dst = processing(img.getWidth(), img.getHeight(), byteBuffer.array());
+            object_detected.setText("BLUR FILTER");
+            bmp.copyPixelsFromBuffer(ByteBuffer.wrap(dst));
+            thetaImageView.setImageBitmap(bmp);
+            conta_pro = conta_pro + 1;
+
+        } else {
+            conta_pro = 0;
+        }
+
 
     }
 
@@ -551,6 +581,7 @@ public class MainActivity extends AppCompatActivity {
         public void onKeyUp(int keyCode, KeyEvent keyEvent) {
             if (keyCode == KeyReceiver.KEYCODE_WLAN_ON_OFF) {
                 processImage(getImagePath());
+
             }
 
         }
