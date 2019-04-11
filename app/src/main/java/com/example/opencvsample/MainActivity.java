@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
     TextView object_detected;
     URL inputFileUrl;
     int conta_webp_image = 0;
-    String url = "http://YOUR HOST/";
+    String url = "http://alexa_robot.ngrok.io/";
     String[] service = {"get_image_objects", "image"};
     int conta_pro = 0;
 

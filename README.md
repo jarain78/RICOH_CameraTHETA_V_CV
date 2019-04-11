@@ -32,7 +32,7 @@ replace *YOUR HOST* by the host where the web service is located. If this is don
 Note that this same host has to be placed on the web server, specifically on *line 28* of the *HTTP_Server.py*
 file *(app.run(host="YOUR HOST", port=80))*.
 
-
+## NOTE: For this first challenge just use the *Master Branch*.
 
 
 [![RICOH](http://img.youtube.com/vi/kqQL7uiIjeo/0.jpg)](http://www.youtube.com/watch?v=kqQL7uiIjeo "RICOH")
