@@ -33,6 +33,7 @@ Note that this same host has to be placed on the web server, specifically on *li
 file *(app.run(host="YOUR HOST", port=80))*.
 
 
+## NOTE: For this first challenge just use the *Master Branch*.
 
 
 [![RICOH](http://img.youtube.com/vi/kqQL7uiIjeo/0.jpg)](http://www.youtube.com/watch?v=kqQL7uiIjeo "RICOH")
