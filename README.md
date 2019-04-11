@@ -35,6 +35,6 @@ file *(app.run(host="YOUR HOST", port=80))*.
 
 
 
-[![](https://youtu.be/kqQL7uiIjeo/0.jpg)](http://www.youtube.com/watch?v=kqQL7uiIjeo "RICOH WebService")
+[![RICOH](http://img.youtube.com/vi/kqQL7uiIjeo/0.jpg)](http://www.youtube.com/watch?v=kqQL7uiIjeo "RICOH")
 
 
