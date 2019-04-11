@@ -92,6 +92,9 @@ public class MainActivity extends AppCompatActivity {
     TextView object_detected;
     URL inputFileUrl;
     int conta_webp_image = 0;
+    String url = "http://alexa_robot.ngrok.io/";
+    String[] service = {"get_image_objects", "image"};
+
     //-----------------------------------------------------------------------------------------
 
 
@@ -153,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         try {
                             post_image_to_ws(thetaImagePath);
+                            post_image_to_get_objects(thetaImagePath);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -244,28 +248,61 @@ public class MainActivity extends AppCompatActivity {
 
         File file = new File(picturePath);
         RequestBody fileReqBody = RequestBody.create(MediaType.parse("image/*"), file);
-        String url = "http://YOUR HOST/image";
+
 
         Request request = new Request.Builder()
-                .url(url)
+                .url(url + service[0])
                 .post(fileReqBody)
                 .build();
 
         OkHttpClient client = new OkHttpClient();
-        //Response response = client.newCall(request).execute();
 
         try {
             responses = client.newCall(request).execute();
-            get_objects(responses.body().string());
+            System.out.println(responses.body());
+            final Bitmap bitmap = BitmapFactory.decodeStream(responses.body().byteStream());
 
-            //Log.d("response", "uploadImage:" + responses.body().string());
+            //
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    thetaImageView.setImageBitmap(bitmap);
+                }
+            });
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
-    private void get_objects(String responses) {
+    private void post_image_to_get_objects(String thetaPicturePath) throws IOException {
+        Response responses;
+
+        File file = new File(picturePath);
+        RequestBody fileReqBody = RequestBody.create(MediaType.parse("image/*"), file);
+
+
+        Request request = new Request.Builder()
+                .url(url + service[1])
+                .post(fileReqBody)
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+
+        try {
+            responses = client.newCall(request).execute();
+            show_objects_names(responses.body().string());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    private void show_objects_names(String responses) {
 
         new Thread(new Runnable() {
             public void run() {
@@ -279,9 +316,7 @@ public class MainActivity extends AppCompatActivity {
                         label_names = jsonobject.getString("label_names");
                         System.out.println(label_names);
                         object_detected.setText(label_names);
-
                     }
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
